@@ -1,12 +1,14 @@
 from Estudiante import Estudiante
 from Docente import Docente
 from Administrativo import Administrativo
+from Materia import Materia
 
 class SistemaGestion:
     def __init__(self):
         self.estudiantes = []
         self.docentes = []
         self.administrativo = []
+        self.materias = []
 
     ### 🔹 MÉTODOS PARA ESTUDIANTESs
     def agregar_estudiante(self):
@@ -158,6 +160,67 @@ class SistemaGestion:
         except ValueError:
             print("\n⚠️ Entrada no válida.\n")
 
+    ### 🔹 MÉTODOS PARA MATERIAS
+    def agregar_materia(self):
+        nombre = input("Ingrese el nombre de la materia: ")
+        materia = Materia(nombre)
+        self.materias.append(materia)
+        print("\n✅ Materia agregada correctamente.\n")
+    
+    def asignar_docente_a_materia(self):
+        if not self.docentes or not self.materias:
+            print("\n⚠️ Debe haber docentes y materias registradas.\n")
+            return
+        
+        print("\n📋 Lista de materias:")
+        for idx, materia in enumerate(self.materias, start=1):
+            print(f"{idx}. {materia.nombre}")
+        
+        idx_materia = int(input("Seleccione la materia: ")) - 1
+        
+        print("\n📋 Lista de docentes:")
+        for idx, docente in enumerate(self.docentes, start=1):
+            print(f"{idx}. {docente.nombre}")
+        
+        idx_docente = int(input("Seleccione el docente: ")) - 1
+        
+        if 0 <= idx_materia < len(self.materias) and 0 <= idx_docente < len(self.docentes):
+            self.materias[idx_materia].asignar_docente(self.docentes[idx_docente])
+            print("\n✅ Docente asignado correctamente.\n")
+        else:
+            print("\n⚠️ Opción inválida.\n")
+    
+    def matricular_estudiante_en_materia(self):
+        if not self.estudiantes or not self.materias:
+            print("\n⚠️ Debe haber estudiantes y materias registradas.\n")
+            return
+        
+        print("\n📋 Lista de materias:")
+        for idx, materia in enumerate(self.materias, start=1):
+            print(f"{idx}. {materia.nombre}")
+        
+        idx_materia = int(input("Seleccione la materia: ")) - 1
+        
+        print("\n📋 Lista de estudiantes:")
+        for idx, estudiante in enumerate(self.estudiantes, start=1):
+            print(f"{idx}. {estudiante.nombre}")
+        
+        idx_estudiante = int(input("Seleccione el estudiante: ")) - 1
+        
+        if 0 <= idx_materia < len(self.materias) and 0 <= idx_estudiante < len(self.estudiantes):
+            self.materias[idx_materia].matricular_estudiante(self.estudiantes[idx_estudiante])
+            print("\n✅ Estudiante matriculado correctamente.\n")
+        else:
+            print("\n⚠️ Opción inválida.\n")
+    
+    def listar_materias(self):
+        if not self.materias:
+            print("\n⚠️ No hay materias registradas.\n")
+        else:
+            print("\n📋 Lista de materias:")
+            for materia in self.materias:
+                print(str(materia)+"\n")
+
     ### 🔹 MENÚ PRINCIPAL
     def ejecutar(self):
         while True:
@@ -165,7 +228,8 @@ class SistemaGestion:
             print("1. Gestión de Estudiantes")
             print("2. Gestión de Docentes")
             print("3. Gestión de Administrativos")
-            print("4. Salir")
+            print("4. Gestión de Materias")
+            print("5. Salir")
             opcion = input("Seleccione una opción: ")
 
             if opcion == "1":
@@ -175,12 +239,14 @@ class SistemaGestion:
             elif opcion == "3":
                 self.menu_administrativo()
             elif opcion == "4":
+                self.menu_materias()
+            elif opcion == "5":
                 print("\n👋 Saliendo del sistema...")
                 break
             else:
                 print("\n⚠️ Opción no válida. Intente de nuevo.\n")
 
-    ### 🔹 SUBMENÚS PARA ESTUDIANTES, DOCENTES Y ADMINISTRATIVOS
+    ### 🔹 SUBMENÚS PARA ESTUDIANTES, DOCENTES, ADMINISTRATIVOS y MATERIAS
     def menu_estudiantes(self):
         while True:
             print("\n🎓 GESTIÓN DE ESTUDIANTES")
@@ -249,6 +315,30 @@ class SistemaGestion:
                 break
             else:
                 print("\n⚠️ Opción no válida. Intente de nuevo.\n")
+    
+    def menu_materias(self):
+        while True:
+            print("\n📚 GESTIÓN DE MATERIAS")
+            print("1. Agregar materia")
+            print("2. Asignar docente a materia")
+            print("3. Matricular estudiante en materia")
+            print("4. Listar materias")
+            print("5. Volver al menú principal")
+            opcion = input("Seleccione una opción: ")
+
+            if opcion == "1":
+                self.agregar_materia()
+            elif opcion == "2":
+                self.asignar_docente_a_materia()
+            elif opcion == "3":
+                self.matricular_estudiante_en_materia()
+            elif opcion == "4":
+                self.listar_materias()
+            elif opcion == "5":
+                break
+            else:
+                print("\n⚠️ Opción no válida. Intente de nuevo.\n")
+    
 
 
 # Ejecutar el sistema
