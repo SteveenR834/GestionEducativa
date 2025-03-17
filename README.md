@@ -3,3 +3,4 @@ El siguiente proyecto agiliza la gestión educativa, teniendo metodos como de ag
 Integrantes:
 
 Steven Castaño, Cristian Rubio, Steveen Revelo, Fabian Cuaran.
+Solicito Luis Carlos Viteri
